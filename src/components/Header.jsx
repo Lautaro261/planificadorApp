@@ -13,6 +13,7 @@ const style = StyleSheet.create({
   texts: {
     textAlign: 'center',
     fontSize: 20,
+    
     color: '#FFF',
     textTransform: 'uppercase',
     fontWeight: '400',
