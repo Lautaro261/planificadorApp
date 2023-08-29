@@ -4,12 +4,12 @@ import {SafeAreaView, View, Text, StyleSheet} from 'react-native';
 const Header = () => {
   return (
     <SafeAreaView>
-      <Text style={style.texts}>Panificador de Gastos</Text>
+      <Text style={styles.texts}>Panificador de Gastos</Text>
     </SafeAreaView>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   texts: {
     textAlign: 'center',
     fontSize: 20,

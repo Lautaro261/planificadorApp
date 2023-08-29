@@ -1,40 +1,51 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import globalStyles from '../styles';
 import {formatearCantidad} from '../helpers';
 
-const BudgetControl = ({budget}) => {
-  const [availableAmount, setAvailableAmount] = useState(0);
-  const [expenses, setExponses] = useState(0);
+const BudgetControl = ({budget, costs}) => {
+  const [availableAmount, setAvailableAmount] = useState(1);  //dinero disponile
+  const [expenses, setExponses] = useState(2);                //dinero gastado
+
+  useEffect(()=>{
+// ------------------------------CALCULO DE GASTADO-------------------------------------------------
+    const totalExpended = costs.reduce((total, obj) => total + Number(obj.quantity), 0);
+    console.log('calculo de gastos: ', totalExpended)
+    setExponses(totalExpended);
+//------------------------------CALCULO DISPONIBLE------------------------------------------------------
+    const totalAvailableAmount = budget - totalExpended;
+    console.log('calculo de disponible:', totalAvailableAmount)
+    setAvailableAmount(totalAvailableAmount)
+  },[])
 
   return (
-    <View style={style.container}>
-      <View style={style.center}>
-        <Image style={style.image} source={require('../img/grafico.jpg')} />
+    <View style={styles.container}>
+      <View style={styles.center}>
+        <Image style={styles.image} source={require('../img/grafico.jpg')} />
       </View>
 
-      <View style={style.textContainer}>
+      <View style={styles.textContainer}>
         {/* PRESUPUETO */}
-        <Text style={style.value}>
-          <Text style={style.label}>Presupuesto: </Text>
+        <Text style={styles.value}>
+          <Text style={styles.label}>Presupuesto:{' '} </Text>
           {formatearCantidad(budget)}
         </Text>
         {/* DISPONIBLE */}
-        <Text style={style.value}>
-          <Text style={style.label}>Disponible: </Text>
-          {formatearCantidad(budget)}
+        <Text style={styles.value}>
+          <Text style={styles.label}>Disponible:{' '} </Text>
+          {formatearCantidad(availableAmount)}
         </Text>
         {/* GASTADO */}
-        <Text style={style.value}>
-          <Text style={style.label}>Gastado: </Text>
-          {formatearCantidad(budget)}
+        <Text style={styles.value}>
+          <Text style={styles.label}>Gastado:{' '} </Text>
+          {formatearCantidad(expenses)}
         </Text>
       </View>
     </View>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     ...globalStyles.container,
   },

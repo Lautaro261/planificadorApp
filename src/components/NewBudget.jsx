@@ -4,13 +4,13 @@ import globalStyles from '../styles';
 
 const NewBudget = ({handlerNewBudget, budget, setBudget}) => {
   return (
-    <View style={style.container}>
-      <Text style={style.label}>Definir Presupuesto</Text>
+    <View style={styles.container}>
+      <Text style={styles.label}>Definir Presupuesto</Text>
 
       <TextInput
         keyboardType="numeric"
         placeholder="Monto $ "
-        style={style.input}
+        style={styles.input}
         value={budget.toString()}
         onChangeText={setBudget}
       />
@@ -19,14 +19,14 @@ const NewBudget = ({handlerNewBudget, budget, setBudget}) => {
         onPress={() => {
           handlerNewBudget(budget);
         }}
-        style={style.button}>
-        <Text style={style.buttonText}>Agregar Presupuesto</Text>
+        style={styles.button}>
+        <Text style={styles.buttonText}>Agregar Presupuesto</Text>
       </Pressable>
     </View>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     ...globalStyles.container,
   },
