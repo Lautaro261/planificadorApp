@@ -8,7 +8,7 @@ import {
   Alert,
   Pressable,
   Image,
-  Modal
+  Modal,
 } from 'react-native';
 
 import Header from './src/components/Header';
@@ -20,11 +20,11 @@ const App = () => {
   const [isAvalidBudget, setIsAvalidBudget] = useState(true); //cambiar a false
   const [budget, setBudget] = useState(500);
   const [costs, setCosts] = useState([
-    {id:1, quantity:30},
+    /* {id:1, quantity:30},
     {id:2, quantity:40},
-    {id:3, quantity:50}
-  ]) // array de gastos (expenses)
-  const [modalAvailable, setModalAvailable] = useState(true); //cambiar a false
+    {id:3, quantity:50} */
+  ]); // array de gastos (expenses)
+  const [modalAvailable, setModalAvailable] = useState(false); //cambiar a false
   StatusBar.setBackgroundColor('#3B82F6'); // Cambia el color aquí al que desees
   StatusBar.setBarStyle('light-content'); // Cambia el estilo de los iconos en la barra de notificaciones (light-content o dark-content)
 
@@ -40,6 +40,17 @@ const App = () => {
       ]);
     }
   };
+
+  const handlerCosts = cost => {
+    console.log(cost);
+    if (Object.values(cost).includes('')) {
+      console.log('falta che');
+      Alert.alert('Error', 'Todos los campos son obligatorios', [{text: 'Ok'}]);
+    } else {
+      console.log('todo lleno');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -56,19 +67,31 @@ const App = () => {
       </View>
 
       {modalAvailable && (
-        <Modal 
-        animationType='slide'
-        visible={modalAvailable}
-        > 
-        <Form/>
-
+        <Modal animationType="slide" visible={modalAvailable}>
+          <Form
+            modalAvailable={modalAvailable}
+            setModalAvailable={setModalAvailable}
+            handlerCosts={handlerCosts}
+          />
         </Modal>
       )}
 
       {isAvalidBudget && (
-        <Pressable onPress={()=>{setModalAvailable(!modalAvailable)}}>
-          <Image style={styles.image} source={require('./src/img/nuevo-gasto.png')}/>
-        </Pressable>
+        <View style={styles.ContainerImage}>
+          <Pressable
+            style={styles.btn}
+            onPress={() => {
+              console.log('click', modalAvailable);
+              setModalAvailable(!modalAvailable);
+              console.log(modalAvailable);
+            }}>
+            {/* <Text>o</Text> */}
+            <Image
+              style={styles.image}
+              source={require('./src/img/nuevo-gasto.png')}
+            />
+          </Pressable>
+        </View>
       )}
     </View>
   );
@@ -82,13 +105,24 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#3B82F6',
   },
-  image:{
-    width:60,
-    height:60,
+  /* ContainerImage:{
+    width:10,
+    //height:80,
     position:'absolute',
-    top:200,
-    right:20
-  }
+    top:500,
+    /* right:10 
+  }, */
+  btn: {
+    //borderWidth: 5,
+    //borderColor: 'red',
+    position: 'absolute',
+    top: 70,
+    right: 20,
+  },
+  image: {
+    width: 70,
+    height: 70,
+  },
 });
 
 export default App;

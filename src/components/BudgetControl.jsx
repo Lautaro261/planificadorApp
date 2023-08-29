@@ -4,19 +4,22 @@ import globalStyles from '../styles';
 import {formatearCantidad} from '../helpers';
 
 const BudgetControl = ({budget, costs}) => {
-  const [availableAmount, setAvailableAmount] = useState(1);  //dinero disponile
-  const [expenses, setExponses] = useState(2);                //dinero gastado
+  const [availableAmount, setAvailableAmount] = useState(1); //dinero disponile
+  const [expenses, setExponses] = useState(2); //dinero gastado
 
-  useEffect(()=>{
-// ------------------------------CALCULO DE GASTADO-------------------------------------------------
-    const totalExpended = costs.reduce((total, obj) => total + Number(obj.quantity), 0);
-    console.log('calculo de gastos: ', totalExpended)
+  useEffect(() => {
+    // ------------------------------CALCULO DE GASTADO-------------------------------------------------
+    const totalExpended = costs.reduce(
+      (total, obj) => total + Number(obj.quantity),
+      0,
+    );
+    console.log('calculo de gastos: ', totalExpended);
     setExponses(totalExpended);
-//------------------------------CALCULO DISPONIBLE------------------------------------------------------
+    //------------------------------CALCULO DISPONIBLE------------------------------------------------------
     const totalAvailableAmount = budget - totalExpended;
-    console.log('calculo de disponible:', totalAvailableAmount)
-    setAvailableAmount(totalAvailableAmount)
-  },[])
+    console.log('calculo de disponible:', totalAvailableAmount);
+    setAvailableAmount(totalAvailableAmount);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -27,17 +30,17 @@ const BudgetControl = ({budget, costs}) => {
       <View style={styles.textContainer}>
         {/* PRESUPUETO */}
         <Text style={styles.value}>
-          <Text style={styles.label}>Presupuesto:{' '} </Text>
+          <Text style={styles.label}>Presupuesto: </Text>
           {formatearCantidad(budget)}
         </Text>
         {/* DISPONIBLE */}
         <Text style={styles.value}>
-          <Text style={styles.label}>Disponible:{' '} </Text>
+          <Text style={styles.label}>Disponible: </Text>
           {formatearCantidad(availableAmount)}
         </Text>
         {/* GASTADO */}
         <Text style={styles.value}>
-          <Text style={styles.label}>Gastado:{' '} </Text>
+          <Text style={styles.label}>Gastado: </Text>
           {formatearCantidad(expenses)}
         </Text>
       </View>

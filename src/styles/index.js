@@ -1,6 +1,6 @@
 const globalStyles = {
-    container:{
-        backgroundColor: '#FFF',
+  container: {
+    backgroundColor: '#FFF',
     marginHorizontal: 10,
     paddingHorizontal: 10,
     borderRadius: 10,
@@ -15,7 +15,7 @@ const globalStyles = {
     shadowRadius: 2.62,
 
     elevation: 4,
-    }
-}
+  },
+};
 
 export default globalStyles;
