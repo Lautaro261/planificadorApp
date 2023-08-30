@@ -11,3 +11,14 @@ export const idGenerator = () => {
 
   return random + fecha;
 };
+
+export const formatearFecha = (date)=>{
+  const dateNew = new Date(date)
+  const opciones = {
+    year:'2-digit',
+    month:'2-digit',
+    day:'2-digit'
+  }
+
+  return dateNew.toLocaleDateString('es-ES', opciones)
+} 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
 import globalStyles from '../styles';
-import {formatearCantidad} from '../helpers';
+import {formatearCantidad, formatearFecha} from '../helpers';
 
 const diccionaryIcons = {
   saving: require('../img/icono_ahorro.png'),
@@ -13,22 +13,32 @@ const diccionaryIcons = {
   divers: require('../img/icono_gastos.png'),
 };
 
-const Card = ({cost}) => {
-  const {name, category, id, quantity} = cost;
-  return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.contentImage}>
-          <Image style={styles.image} source={diccionaryIcons[category]} />
-        </View>
+const Card = ({cost, setModalAvailable, modalAvailable, setCostState}) => {
+  const {name, category, id, quantity, date} = cost;
 
-        <View style={styles.containerText}>
-          <Text style={styles.category}>{category}</Text>
-          <Text style={styles.name}>{name}</Text>
+  const handlerPress = ()=>{
+    setModalAvailable(!modalAvailable)
+    setCostState(cost)
+  }
+
+
+  return (
+    <Pressable onPress={handlerPress}>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <View style={styles.contentImage}>
+            <Image style={styles.image} source={diccionaryIcons[category]} />
+          </View>
+
+          <View style={styles.containerText}>
+            <Text style={styles.category}>{category}</Text>
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.date}>Fecha: {formatearFecha(date)}</Text>
+          </View>
+          <Text style={styles.quantity}>{formatearCantidad(quantity)}</Text>
         </View>
-        <Text style={styles.quantity}>{formatearCantidad(quantity)}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
@@ -67,6 +77,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#64748B',
     marginBottom: 5,
+  },
+  date: {
+    fontWeight: '400',
+    color: '#DB2777',
   },
   quantity: {
     fontSize: 20,

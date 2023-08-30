@@ -23,11 +23,14 @@ const App = () => {
   const [isAvalidBudget, setIsAvalidBudget] = useState(true); //cambiar a false
   const [budget, setBudget] = useState(500);
   const [costs, setCosts] = useState([
-    {id: 1, quantity: 30, name: 'Sushi', category: 'food'},
+    {id: 1, quantity: 10, name: 'Sushi', category: 'food'},
     {id: 2, quantity: 40, name: 'Netflix', category: 'subscriptions'},
     {id: 3, quantity: 50, name: 'Paseo', category: 'divers'},
   ]); // array de gastos (expenses)
   const [modalAvailable, setModalAvailable] = useState(false); //cambiar a false
+  const [costState, setCostState] = useState({})
+
+
   StatusBar.setBackgroundColor('#3B82F6'); // Cambia el color aquí al que desees
   StatusBar.setBarStyle('light-content'); // Cambia el estilo de los iconos en la barra de notificaciones (light-content o dark-content)
 
@@ -54,6 +57,7 @@ const App = () => {
 
     //Añadir el nuevo gasto al state
     cost.id = idGenerator();
+    cost.date = Date.now();
     setCosts([...costs, cost]);
     setModalAvailable(!modalAvailable);
 
@@ -76,7 +80,12 @@ const App = () => {
           )}
         </View>
 
-        {isAvalidBudget && <ListCots costs={costs} />}
+        {isAvalidBudget && <ListCots 
+        costs={costs} 
+        setModalAvailable={setModalAvailable}
+        modalAvailable={modalAvailable}
+        setCostState={setCostState}
+        />}
       </ScrollView>
 
       {modalAvailable && (
@@ -85,6 +94,8 @@ const App = () => {
             modalAvailable={modalAvailable}
             setModalAvailable={setModalAvailable}
             handlerCosts={handlerCosts}
+            setCostState={setCostState}
+            costState={costState}
           />
         </Modal>
       )}

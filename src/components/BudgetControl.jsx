@@ -19,7 +19,7 @@ const BudgetControl = ({budget, costs}) => {
     const totalAvailableAmount = budget - totalExpended;
     console.log('calculo de disponible:', totalAvailableAmount);
     setAvailableAmount(totalAvailableAmount);
-  }, []);
+  }, [costs]);
 
   return (
     <View style={styles.container}>

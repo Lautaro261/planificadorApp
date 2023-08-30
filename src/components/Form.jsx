@@ -1,25 +1,49 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Pressable, StyleSheet, TextInput} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import globalStyles from '../styles';
 
-const Form = ({modalAvailable, setModalAvailable, handlerCosts}) => {
+const Form = ({
+  modalAvailable, 
+  setModalAvailable, 
+  handlerCosts, 
+  setCostState,
+  costState
+ }) => {
+
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [category, setCategory] = useState('');
+  const [id, setId]=useState('')
+
+  useEffect(()=>{
+    if(costState?.name){
+      setName(costState.name)
+      setQuantity(costState.quantity)//arreglar problema con string o numero
+      setCategory(costState.category)
+      setId(costState.id)
+
+    }else{
+
+    }
+  },[costState])
+
 
   return (
     <View style={styles.container}>
       <View>
         <Pressable
           style={styles.btnCancelar}
-          onPress={() => setModalAvailable(!modalAvailable)}>
+          onPress={() => {
+            setModalAvailable(!modalAvailable)
+            setCostState({})
+            }}>
           <Text style={styles.btnCancelarText}>Cancelar</Text>
         </Pressable>
       </View>
 
       <View style={styles.form}>
-        <Text style={styles.title}>Nuevo Gato</Text>
+        <Text style={styles.title}>{costState?.name? 'Editar': 'Nuevo'} Gasto</Text>
         <View style={styles.campo}>
           <Text style={styles.label}>Nombre Gasto</Text>
           <TextInput
@@ -69,7 +93,7 @@ const Form = ({modalAvailable, setModalAvailable, handlerCosts}) => {
             handlerCosts({name, quantity, category});
           }}
           style={styles.submitBtn}>
-          <Text style={styles.submitText}>Agregar Gasto</Text>
+          <Text style={styles.submitText}>{costState?.name? 'Guardar': 'Agregar'} Gasto</Text>
         </Pressable>
       </View>
     </View>
