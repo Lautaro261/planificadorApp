@@ -8,13 +8,15 @@ const Form = ({
   setModalAvailable, 
   handlerCosts, 
   setCostState,
-  costState
+  costState,
+  eliminarCard
  }) => {
 
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [category, setCategory] = useState('');
-  const [id, setId]=useState('')
+  const [id, setId]=useState('');
+  const [date, setDate] = useState('');
 
   useEffect(()=>{
     if(costState?.name){
@@ -22,6 +24,7 @@ const Form = ({
       setQuantity(costState.quantity)//arreglar problema con string o numero
       setCategory(costState.category)
       setId(costState.id)
+      setDate(costState.date)
 
     }else{
 
@@ -31,15 +34,26 @@ const Form = ({
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.ButtonsContainer}>
         <Pressable
-          style={styles.btnCancelar}
+          style={[styles.btn,styles.btnCancelar]}
           onPress={() => {
             setModalAvailable(!modalAvailable)
             setCostState({})
             }}>
-          <Text style={styles.btnCancelarText}>Cancelar</Text>
+          <Text style={styles.btnText}>Cancelar</Text>
         </Pressable>
+
+        <Pressable
+          style={[styles.btn, styles.btnEliminar]}
+          onPress={()=>{
+            eliminarCard(id)
+          }}
+          >
+          <Text style={styles.btnText}>Eliminar</Text>
+        </Pressable>
+
+        
       </View>
 
       <View style={styles.form}>
@@ -90,7 +104,7 @@ const Form = ({
 
         <Pressable
           onPress={() => {
-            handlerCosts({name, quantity, category});
+            handlerCosts({name, quantity, category, id, date});
           }}
           style={styles.submitBtn}>
           <Text style={styles.submitText}>{costState?.name? 'Guardar': 'Agregar'} Gasto</Text>
@@ -140,6 +154,18 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     textTransform: 'uppercase',
   },
+  ButtonsContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+  },
+  btn:{
+    padding: 5,
+    marginTop: 30,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    flex:1
+
+  },
   btnCancelar: {
     backgroundColor: '#DD2777',
     padding: 5,
@@ -147,10 +173,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 10,
   },
-  btnCancelarText: {
+  btnText: {
     textAlign: 'center',
     textTransform: 'uppercase',
     color: '#FFF',
   },
+  btnEliminar:{
+    backgroundColor:'red'
+  }
 });
 export default Form;

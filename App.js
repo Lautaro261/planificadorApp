@@ -48,21 +48,51 @@ const App = () => {
   };
 
   const handlerCosts = cost => {
-    console.log(cost);
-    if (Object.values(cost).includes('')) {
+    if ([cost.name, cost.category, cost.quantity].includes('')) {
       console.log('falta che');
       Alert.alert('Error', 'Todos los campos son obligatorios', [{text: 'Ok'}]);
       return;
     }
+    
+    
+    console.log(cost);
+
+    if(cost.id){
+      console.log('Edicion')
+      const updatedCosts = costs.map((c)=> c.id === costState.id ? cost : c)
+
+      setCosts(updatedCosts)
+    }else{
+      cost.id = idGenerator();
+      cost.date = Date.now();
+      setCosts([...costs, cost]);
+
+    }
 
     //Añadir el nuevo gasto al state
-    cost.id = idGenerator();
-    cost.date = Date.now();
-    setCosts([...costs, cost]);
     setModalAvailable(!modalAvailable);
 
     //console.log(cost)
   };
+
+
+  const eliminarCard=(id)=>{
+    console.log('eliminar',id)
+    Alert.alert(
+      '¿Deseas eliminar este gasto?',
+      'En gasto eliminado no se puede recuperar',
+      [
+        {text: 'Cancelar', style:'cancel'}, 
+        {text:'Si, Eliminar', onPress:()=>{
+          const gastosActualizados = costs.filter((c)=>{c.id !== id}) // revisar el eliminador de card
+          setCosts(gastosActualizados)
+          setModalAvailable(!modalAvailable)
+          setCostState({})
+        }}
+      ]
+    )
+    
+  }
 
   return (
     <View style={styles.container}>
@@ -96,6 +126,7 @@ const App = () => {
             handlerCosts={handlerCosts}
             setCostState={setCostState}
             costState={costState}
+            eliminarCard={eliminarCard}
           />
         </Modal>
       )}
@@ -103,11 +134,11 @@ const App = () => {
       {isAvalidBudget && (
         <View style={styles.ContainerImage}>
           <Pressable
-            style={styles.btn}
+            style={[styles.btnPressable]}
             onPress={() => {
-              console.log('click', modalAvailable);
+              //console.log('click', modalAvailable);
               setModalAvailable(!modalAvailable);
-              console.log(modalAvailable);
+              //console.log(modalAvailable);
             }}>
             {/* <Text>o</Text> */}
             <Image
@@ -144,6 +175,14 @@ const styles = StyleSheet.create({
     top: 70,
     right: 30,
     // bottom:40
+  },
+  btnPressable:{
+    //backgroundColor:'red',
+    width:70,
+    height:70,
+    position:'absolute',
+    bottom:40,
+    right:30
   },
   image: {
     width: 70,
